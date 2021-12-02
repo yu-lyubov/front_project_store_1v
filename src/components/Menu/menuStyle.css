@@ -1,0 +1,35 @@
+.menuFormContainer {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.widthUlContener {
+  width: 100%;
+}
+
+.categoryBlock {
+  min-width: 250px;
+  background-color: #fff;
+  border-right: 1 px
+}
+
+li .hoverEdit {
+  display: none;
+}
+
+li:hover .hoverEdit {
+  display: block;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.sizeButton {
+  width: 25px;
+  height: 25px;
+}
+
+.sizeLi {
+  min-height: 65px;
+}

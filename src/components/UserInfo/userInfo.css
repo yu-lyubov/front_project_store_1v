@@ -1,0 +1,64 @@
+.userInfoFormContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 auto;
+}
+
+.innerUsersBlock {
+  min-width: 600px;
+  background-color: #ffffff;
+  padding: 60px;
+}
+
+h3 {
+  margin-bottom: 45px;
+}
+
+.totalInfo {
+  padding-bottom: 50px;
+}
+
+.totalInfoMargin {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.totalInfoMargin2 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+@media screen and (max-width: 600px) {
+  .innerUsersBlock {
+    min-width: 380px;
+    background-color: #ffffff;
+    padding: 40px;
+  }
+
+  h3 {
+    margin-bottom: 10px;
+  }
+
+  .totalInfo {
+    padding-bottom: 30px;
+  }
+
+  .totalInfoMargin {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 0;
+  }
+
+  .totalInfoMargin2 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+}

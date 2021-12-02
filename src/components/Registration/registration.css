@@ -1,0 +1,26 @@
+.registrationContainer {
+  display: flex;
+  flex: 1 1 auto;
+  background-color: #f8f9fa;
+}
+
+.marginBlock {
+  margin: auto;
+}
+
+.innerRegistrationBlock {
+  min-width: 600px;
+}
+
+@media screen and (max-width: 600px) {
+  .innerRegistrationBlock {
+    min-width: 350px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .innerRegistrationBlock {
+    min-width: 300px;
+
+  }
+}

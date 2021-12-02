@@ -1,0 +1,14 @@
+.MainBlockFormContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 auto;
+}
+
+.innerMainBlockBlock {
+  min-width: 600px;
+}
+
+.fdfdf {
+  flex: 1 1 auto;
+}

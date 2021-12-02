@@ -1,0 +1,75 @@
+.innerHeadersBlock {
+  display: flex;
+  min-width: 440px;
+  min-height: 50px;
+  justify-content: center;
+}
+
+.dataBlock {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.flWidth {
+  min-width: 300px;
+}
+
+.flWidth2 {
+  min-width: 140px; 
+}
+
+.flWidth3 {
+  min-width: 170px; 
+}
+
+@media screen and (max-width: 600px) {
+  .innerHeadersBlock {
+    display: flex;
+    min-width: 375px;
+    min-height: 50px;
+    font-size: smaller;
+  }
+
+  .flWidth {
+    min-width: 245px;
+  }
+
+  .flWidth2 {
+    min-width: 95px;
+  }
+
+  .flWidth3 {
+    min-width: 130px;
+  }
+
+  .buttonA {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .innerHeadersBlock {
+    display: flex;
+    min-width: 295px;
+    min-height: 50px;
+    font-size: x-small;
+  }
+
+  .flWidth {
+    min-width: 185px;
+  }
+
+  .flWidth2 {
+    min-width: 75px;
+  }
+
+  .flWidth3 {
+    min-width: 100px;
+  }
+
+  .buttonA {
+    font-size: 10px;
+  }
+}

@@ -1,0 +1,83 @@
+.tableFormContainer {
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.tableBlock{
+  display: flex;
+  justify-content: center;
+  align-items:  flex-start;
+  flex-wrap: wrap;
+  flex: 1 1 auto;
+}
+
+.sizeBox {
+  min-width: 500px;
+}
+
+table {
+  border: 2px solid black;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: center;
+  padding: 5px 25px;
+  border: 1px solid lightgray;
+}
+
+td {
+  text-align: center;
+  padding: 5px 25px;
+  border: 1px solid lightgray;
+}
+
+caption {
+  caption-side: top;
+  text-align: center;
+  
+}
+
+.sizeAddUser {
+  width: 100px;
+}
+
+.addNewUser {
+  display: flex;
+  justify-content: center;
+  align-items:  center;
+  flex: 1 1 auto;
+}
+
+.newUserSize {
+  min-width: 600px;
+  /* min-height: 300px; */
+}
+
+.sizeDivSelect {
+  width: 402px;
+}
+
+.sizeLabel {
+  min-width: 40px;
+}
+
+.sizeSelect1 {
+  width: 197px;
+}
+
+.sizeSelect2 {
+  width: 207px;
+}
+
+.sizeOption {
+  width: 128px;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.quantityPageSelect {
+  width: 65px;
+}

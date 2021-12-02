@@ -1,0 +1,18 @@
+.startShopFormContainer {
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.startShopBlock{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items:  center;
+  flex-wrap: wrap;
+  flex: 1 1 auto;
+}
+
+.sizeBag {
+  width: 300px;
+  height: 300px;
+}
