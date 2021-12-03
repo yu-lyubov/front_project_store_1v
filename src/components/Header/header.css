@@ -1,8 +1,9 @@
 .innerHeadersBlock {
   display: flex;
-  min-width: 440px;
+  width: 100%;
   min-height: 50px;
   justify-content: center;
+  margin: 0 20px;
 }
 
 .dataBlock {
@@ -10,66 +11,29 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  max-width: 575px;
 }
 
-.flWidth {
-  min-width: 300px;
+.linkBtn {
+  margin-right: 10px;
 }
 
-.flWidth2 {
-  min-width: 140px; 
-}
-
-.flWidth3 {
-  min-width: 170px; 
-}
-
-@media screen and (max-width: 600px) {
-  .innerHeadersBlock {
-    display: flex;
-    min-width: 375px;
-    min-height: 50px;
-    font-size: smaller;
+@media screen and (max-width: 450px) {
+  .linkBtn {
+    font-size: .75rem;
   }
 
-  .flWidth {
-    min-width: 245px;
-  }
-
-  .flWidth2 {
-    min-width: 95px;
-  }
-
-  .flWidth3 {
-    min-width: 130px;
-  }
-
-  .buttonA {
-    font-size: 12px;
+  .btnSize {
+    font-size: .75rem;
   }
 }
 
-@media screen and (max-width: 400px) {
-  .innerHeadersBlock {
-    display: flex;
-    min-width: 295px;
-    min-height: 50px;
-    font-size: x-small;
+@media screen and (max-width: 370px) {
+  .linkBtn {
+    font-size: .58rem;
   }
 
-  .flWidth {
-    min-width: 185px;
-  }
-
-  .flWidth2 {
-    min-width: 75px;
-  }
-
-  .flWidth3 {
-    min-width: 100px;
-  }
-
-  .buttonA {
-    font-size: 10px;
+  .btnSize {
+    font-size: .58rem;
   }
 }

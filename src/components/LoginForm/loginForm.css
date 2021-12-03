@@ -6,18 +6,8 @@
 }
 
 .innerLoginBlock {
-    min-width: 600px;
-}
-
-@media screen and (max-width: 600px) {
-    .innerLoginBlock {
-        min-width: 400px;
-    }
-}
-
-@media screen and (max-width: 400px) {
-    .innerLoginBlock {
-        min-width: 300px;
-
-    }
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 575px;
 }

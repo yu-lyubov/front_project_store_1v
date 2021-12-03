@@ -1,4 +1,4 @@
-// const API_PORT = 4000;
+// const API_URL = `http://127.0.0.1:4000/api/`;
 const API_URL = `/api/`;
 
 export const sendToServer = (url, method, getToken, state) => {
