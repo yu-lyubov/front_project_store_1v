@@ -170,7 +170,6 @@ class ShoppingCategories extends React.Component {
     product.imagePath = null;
     delete product.image;
     this.setState({product});
-    console.log(product);
   }
 
   isValidStringLength() {
@@ -183,7 +182,6 @@ class ShoppingCategories extends React.Component {
 
   render() {
     const {userInfo, product, display} = this.state;
-    console.log(product);
     const error = {
       price: !isValidNumber(product?.price),
       discount: !isValidNumber(product?.discountPrice),
