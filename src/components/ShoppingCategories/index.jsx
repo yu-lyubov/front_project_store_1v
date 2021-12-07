@@ -1,12 +1,12 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './categoryStyle.css';
 import {ReactComponent as CartPlusIcon} from '../../assets/icons/cart-plus.svg';
 import {ReactComponent as EditIcon} from '../../assets/icons/pencil-square.svg';
 import {ReactComponent as DeleteIcon} from '../../assets/icons/x-circle.svg';
 import sendToServer from '../sendToServer';
-import { isAdmin, isValidNumber } from '../../helpers/m';
+import {isAdmin, isValidNumber} from '../../helpers/m';
 
 class ShoppingCategories extends React.Component {
   constructor(props) {
@@ -28,6 +28,7 @@ class ShoppingCategories extends React.Component {
     this.deleteProduct = this.deleteProduct.bind(this);
     this.changeProductData = this.changeProductData.bind(this);
     this.onSelectFile = this.onSelectFile.bind(this);
+    this.deteleImage = this.deteleImage.bind(this);
   }
 
   componentDidMount() {
@@ -39,74 +40,72 @@ class ShoppingCategories extends React.Component {
     if (this.props.match.params.id !== prevProps.match.params.id) {
       const id = this.props.match.params.id;
       this.getUserFromServer(id);
+      this.openCategories();
     }
   }
 
   getUserFromServer(id) {
     sendToServer(`allProduct/${id}`, 'GET', true)
-    .then((value) => {
-      this.setState({ allProduct: value });
-    })
-    .catch((e) => {
-      console.log(e);
-    }) 
+        .then((value) => {
+          this.setState({allProduct: value});
+        })
   }
 
   // Открытие категории, добавление и изменение продуктов.
 
   openCategories() {
-    const { display } = this.state;
+    const {display} = this.state;
     display.categories = true;
     display.newProduct = false;
     display.editProduct = false;
-    this.setState({ product: {}, display });
+    this.setState({product: {}, display});
   }
 
   openNewProduct() {
-    const { display } = this.state;
+    const {display} = this.state;
     display.categories = false;
     display.newProduct = true;
-    this.setState({ display });
+    this.setState({display});
   }
 
   openDisplayEditProduct(item) {
-    const { display } = this.state;
+    const {display} = this.state;
     display.editProduct = true;
     display.categories = false;
-    this.setState({ product: {...item}, display });
+    this.setState({product: {...item}, display});
   }
 
   // Добавление новых продуктов
 
   onChangeProduct(e, type) {
-    const { product } = this.state;
+    const {product} = this.state;
     product[type] = e.target.value;
-    this.setState({ product });
+    this.setState({product});
   }
 
   onSelectFile(e) {
-    const { product } = this.state;
+    const {product} = this.state;
     product.image = e.target.files[0];
-    this.setState({ product });
+    this.setState({product});
   }
 
   addNewProduct() {
-    const { allProduct, product } = this.state;
+    const {allProduct, product} = this.state;
     product.id = this.props.match.params.id;
     if (product.name && product.price && this.isValidStringLength()) {
       if (isValidNumber(product?.price) && isValidNumber(product?.discountPrice)) {
-        const formData  = new FormData()
+        const formData = new FormData();
 
-        for(const key in product) {
+        for (const key in product) {
           formData.append(key, product[key]);
         }
 
         sendToServer('newProduct', 'POST', true, formData)
-        .then((value) => {
-          allProduct.push(value);
-          this.openCategories();
-          this.setState({ allProduct });
-        })
+            .then((value) => {
+              allProduct.push(value);
+              this.openCategories();
+              this.setState({allProduct});
+            })
       } else {
         alert('Некорректно ведены параметры цены');
       }
@@ -118,33 +117,44 @@ class ShoppingCategories extends React.Component {
   // Удалить продукты
 
   deleteProduct(item) {
-    const { allProduct } = this.state;
+    const {allProduct} = this.state;
     let answer = window.confirm('Удалить товар?');
     if (answer) {
       sendToServer('deleteProduct', 'DELETE', true, item)
-      .then(() => {
-        const index = allProduct.indexOf(item);
-        if (index > -1) {
-          allProduct.splice(index, 1);
-        }
-        this.setState({ allProduct });
-      })
+          .then(() => {
+            const index = allProduct.indexOf(item);
+            if (index > -1) {
+              allProduct.splice(index, 1);
+            }
+            this.setState({allProduct});
+          })
     }
   }
 
   // Изменить данные продукты
 
   changeProductData() {
-    const { product, allProduct } = this.state;
+    const {product, allProduct} = this.state;
+    allProduct.forEach((el) => {
+      if (el._id === product._id) {
+        product.imagePath = el.imagePath;
+      }
+    });
     if (product.name && product.price && this.isValidStringLength()) {
       if (isValidNumber(product?.price) && isValidNumber(product?.discountPrice)) {
-        sendToServer('changeProduct', 'PUT', true, product)
-        .then((value) => {
-          let newArr = [...new Set([...allProduct])];
-          newArr = newArr.map((el) => (el._id === value._id ? value : el));
-          this.setState({ allProduct: newArr });
-          this.openCategories();
-        })
+        const formData = new FormData();
+
+        for (const key in product) {
+          formData.append(key, product[key]);
+        }
+
+        sendToServer('changeProduct', 'PUT', true, formData)
+            .then((value) => {
+              let newArr = [...new Set([...allProduct])];
+              newArr = newArr.map((el) => (el._id === value._id ? value : el));
+              this.setState({allProduct: newArr});
+              this.openCategories();
+            })
       } else {
         alert('Некорректно ведены параметры цены');
       }
@@ -153,19 +163,27 @@ class ShoppingCategories extends React.Component {
     }
   }
 
-  // 
+  //
 
-  isValidStringLength () {
-    const { product } = this.state;
+  deteleImage() {
+    const {product} = this.state;
+    product.imagePath = null;
+    delete product.image;
+    this.setState({product});
+    console.log(product);
+  }
+
+  isValidStringLength() {
+    const {product} = this.state;
     if (!product.name || (!!product.name && product.name.length <= 42)) {
       return true;
     }
     return false;
   }
 
-  render () {
-    const { userInfo, product, display } = this.state;
-    // console.log(allProduct);
+  render() {
+    const {userInfo, product, display} = this.state;
+    console.log(product);
     const error = {
       price: !isValidNumber(product?.price),
       discount: !isValidNumber(product?.discountPrice),
@@ -173,98 +191,97 @@ class ShoppingCategories extends React.Component {
     };
     // console.log(this.props.history.push(`${this.props.match.url}/sdfsdfdsfsdf}`));
     return (
-      <div className='categoryFormContainer bg-light'>
+        <div className='categoryFormContainer bg-light'>
 
-        {display.categories && 
+          {display.categories &&
           <div className='categoryBlock bg-light'>
-            
+
             {this.state.allProduct.map((item, idx) => (
-              <div
-                className='blockSize border rounded-3 bg-white blockProduct'
-                key={`${item.id}-${idx}`}
-              >
-                <div className='d-flex flex-column justify-content-between'>
+                <div
+                    className='blockSize border rounded-3 bg-white blockProduct'
+                    key={`${item.id}-${idx}`}
+                >
+                  <div className='d-flex flex-column justify-content-between'>
 
-                  <img
-                    src={item.imagePath || '/images/nophoto.jpg'}
-                    alt={item.name}
-                    className='pictureAndTextSize my-3'
-                  />
+                    <img
+                        src={item.imagePath || '/images/nophoto.jpg'}
+                        alt={item.name}
+                        className='pictureAndTextSize my-3'
+                    />
 
-                  <div className='heightNameAndPrice d-flex flex-column justify-content-between mb-3'>
-                    <p className='m-0 pictureAndTextSize textWrap'>{item.name}</p>
+                    <div className='heightNameAndPrice d-flex flex-column justify-content-between mb-3'>
+                      <p className='m-0 pictureAndTextSize textWrap'>{item.name}</p>
 
-                    {item.discountPrice ? (
-                      <div className='d-flex flex-column align-items-center'>
-                        <p className='m-0 withSale fs-5'>{`${item.discountPrice} ₽`}</p>
-                        <p className='fs-6 sale mb-0'>{`${item.price} ₽`}</p>
-                      </div>
-                    ) : (
-                      <div className='d-flex flex-column align-items-center'>
-                        <p className='m-0 withoutSale fs-5 mb-3'>{`${item.price} ₽`}</p>
+                      {item.discountPrice ? (
+                          <div className='d-flex flex-column'>
+                            <p className='m-0 withSale fs-5'>{`${item.discountPrice} ₽`}</p>
+                            <p className='fs-6 sale mb-0'>{`${item.price} ₽`}</p>
+                          </div>
+                      ) : (
+                          <div className='d-flex flex-column align-items-center'>
+                            <p className='m-0 withoutSale fs-5 mb-3'>{`${item.price} ₽`}</p>
 
-                      </div>
-                    )}
+                          </div>
+                      )}
+                    </div>
+
                   </div>
-
-                </div>
-                {isAdmin(userInfo) &&
+                  {isAdmin(userInfo) &&
                   <div className='editHover'>
                     <div className='d-flex flex-column'>
                       <div
-                        className='cursor'
-                        onClick={() => this.openDisplayEditProduct(item)}
+                          className='cursor'
+                          onClick={() => this.openDisplayEditProduct(item)}
                       >
-                        <EditIcon />
+                        <EditIcon/>
                       </div>
                       <div
-                        className='cursor'
-                        onClick={() => this.deleteProduct(item)}
+                          className='cursor'
+                          onClick={() => this.deleteProduct(item)}
                       >
-                        <DeleteIcon />
+                        <DeleteIcon/>
                       </div>
                     </div>
                   </div>
-                }
+                  }
 
-              </div>
+                </div>
             ))}
-            
+
             {isAdmin(userInfo) &&
-              <div className='d-flex blockSize border rounded-3 bg-white'>
-                <div 
+            <div className='d-flex blockSize border rounded-3 bg-white'>
+              <div
                   onClick={this.openNewProduct}
                   className='addNewCategory cursor'
-                >
-                  <CartPlusIcon
+              >
+                <CartPlusIcon
                     className='bottonSize'
-                  />
-                </div>
+                />
               </div>
+            </div>
             }
 
           </div>
-        }
-        
+          }
 
 
-        {display.editProduct &&
+          {display.editProduct &&
           <div className='addNewCategory'>
-            <div className='newCategoriesSize border rounded-3 bg-white'>
-              <div 
-                className='d-flex flex-row-reverse pt-3 px-3 m-1'
-                onClick={this.openCategories}
+            <div className='newCategoriesSize border rounded-3'>
+              <div
+                  className='d-flex flex-row-reverse pt-3 px-3 m-1'
+                  onClick={this.openCategories}
               >
-                <DeleteIcon className='cursor' />
+                <DeleteIcon className='cursor'/>
               </div>
 
               <div className='px-5 pb-5'>
                 <h4 className='text-center mt-2 mb-4'>Изменить товар</h4>
                 <input
-                  value={product.name}
-                  onChange={(e) => this.onChangeProduct(e, 'name')}
-                  className={`form-control ${error.name ? 'border-danger' : ''}`}
-                  placeholder='Название товара'
+                    value={product.name}
+                    onChange={(e) => this.onChangeProduct(e, 'name')}
+                    className={`form-control ${error.name ? 'border-danger' : ''}`}
+                    placeholder='Название товара'
                 />
 
                 <div className='d-flex flex-row-reverse'>
@@ -277,66 +294,84 @@ class ShoppingCategories extends React.Component {
 
                 <div className='d-flex flex-row justify-content-between'>
                   <input
-                    value={product.price}
-                    onChange={(e) => this.onChangeProduct(e, 'price')}
-                    className={`form-control mb-3 priceOfProductSize ${error.price ? 'border-danger' : ''}`}
-                    placeholder='Сумма товара'
+                      value={product.price}
+                      onChange={(e) => this.onChangeProduct(e, 'price')}
+                      className={`form-control priceOfProductSize ${error.price ? 'border-danger' : ''}`}
+                      placeholder='Сумма товара'
                   />
                   <input
-                    value={product.discountPrice}
-                    onChange={(e) => this.onChangeProduct(e, 'discountPrice')}
-                    className={`form-control mb-3 priceOfProductSize ${error.discount ? 'border-danger' : ''}`}
-                    placeholder='Сумма со скидкой'
+                      value={product.discountPrice}
+                      onChange={(e) => this.onChangeProduct(e, 'discountPrice')}
+                      className={`form-control priceOfProductSize ${error.discount ? 'border-danger' : ''}`}
+                      placeholder='Сумма со скидкой'
                   />
                 </div>
 
-                <input
-                  type='file'
-                  className='form-control mb-3'
-                />
+                {product.imagePath ? (
+                    <div className='fileInput'>
+                      <img
+                          src={product.imagePath}
+                          alt={product.name}
+                          className='imagePreview'
+                      />
+                      <div
+                          className='fileBtnClose'
+                          onClick={this.deteleImage}
+                      >
+                        <DeleteIcon/>
+                      </div>
+                    </div>
+                ) : (
+                    <div className='fileInput'>
+                      <input
+                          type='file'
+                          onChange={(e) => this.onSelectFile(e)}
+                          className='form-control'
+                      />
+                    </div>
+                )}
 
-                <div className='d-flex justify-content-center'>
+                <div className='d-flex justify-content-between'>
                   <button
-                    onClick={this.changeProductData}
-                    className='text-white bg-success form-control w-50 mx-1'
+                      onClick={this.changeProductData}
+                      className='text-white bg-success form-control w-50'
                   >
                     Изменить
                   </button>
                   <button
-                    onClick={this.openCategories}
-                    className='text-white bg-success form-control w-50 mx-1'
+                      onClick={this.openCategories}
+                      className='text-white bg-success form-control w-50'
                   >
                     Отмена
                   </button>
                 </div>
-                
+
               </div>
             </div>
           </div>
-        }
+          }
 
 
-
-        {display.newProduct &&
+          {display.newProduct &&
           <div className='addNewCategory'>
-            <div className='newCategoriesSize border rounded-3 bg-white'>
+            <div className='newCategoriesSize border rounded-3'>
 
-              <div 
-                className='d-flex flex-row-reverse pt-3 px-3 m-1'
-                onClick={this.openCategories}
+              <div
+                  className='d-flex flex-row-reverse pt-3 px-3 m-1'
+                  onClick={this.openCategories}
               >
-                <DeleteIcon className='cursor' />
+                <DeleteIcon className='cursor'/>
               </div>
 
               <div className='px-5 pb-5'>
                 <h4 className='text-center mt-2 mb-4'>Добавить товар</h4>
                 <input
-                  value={product.name}
-                  onChange={(e) => this.onChangeProduct(e, 'name')}
-                  className={`form-control ${error.name ? 'border-danger' : ''}`}
-                  placeholder='Название товара'
+                    value={product.name}
+                    onChange={(e) => this.onChangeProduct(e, 'name')}
+                    className={`form-control ${error.name ? 'border-danger' : ''}`}
+                    placeholder='Название товара'
                 />
-                
+
                 <div className='d-flex flex-row-reverse'>
                   <p className='m-0'>
                     <small>
@@ -347,46 +382,46 @@ class ShoppingCategories extends React.Component {
 
                 <div className='d-flex flex-row justify-content-between'>
                   <input
-                    value={product.price}
-                    onChange={(e) => this.onChangeProduct(e, 'price')}
-                    className={`form-control mb-3 priceOfProductSize ${error.price ? 'border-danger' : ''}`}
-                    placeholder='Сумма товара'
+                      value={product.price}
+                      onChange={(e) => this.onChangeProduct(e, 'price')}
+                      className={`form-control priceOfProductSize ${error.price ? 'border-danger' : ''}`}
+                      placeholder='Сумма товара'
                   />
                   <input
-                    value={product.discountPrice}
-                    onChange={(e) => this.onChangeProduct(e, 'discountPrice')}
-                    className={`form-control mb-3 priceOfProductSize ${error.discount ? 'border-danger' : ''}`}
-                    placeholder='Сумма со скидкой'
+                      value={product.discountPrice}
+                      onChange={(e) => this.onChangeProduct(e, 'discountPrice')}
+                      className={`form-control priceOfProductSize ${error.discount ? 'border-danger' : ''}`}
+                      placeholder='Сумма со скидкой'
                   />
                 </div>
 
                 <input
-                  type='file'
-                  onChange={(e) => this.onSelectFile(e)}
-                  id='filechooser'
-                  className='form-control mb-3'
+                    type='file'
+                    onChange={(e) => this.onSelectFile(e)}
+                    id='filechooser'
+                    className='form-control mb-3'
                 />
 
-                <div className='d-flex justify-content-center'>
+                <div className='d-flex justify-content-between'>
                   <button
-                    onClick={this.addNewProduct}
-                    className='text-white bg-success form-control w-50 mx-1'
+                      onClick={this.addNewProduct}
+                      className='text-white bg-success form-control w-50'
                   >
                     Добавить
                   </button>
                   <button
-                    onClick={this.openCategories}
-                    className='text-white bg-success form-control w-50 mx-1'
+                      onClick={this.openCategories}
+                      className='text-white bg-success form-control w-50'
                   >
                     Отмена
                   </button>
                 </div>
-                
+
               </div>
             </div>
           </div>
-        }
-      </div>
+          }
+        </div>
     )
   }
 }

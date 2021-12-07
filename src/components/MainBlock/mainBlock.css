@@ -6,9 +6,20 @@
 }
 
 .innerMainBlockBlock {
-  min-width: 600px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 575px;
+  padding: 50px 50px;
+  background-color: #ffffff;
 }
 
-.fdfdf {
-  flex: 1 1 auto;
+@media screen and (max-width: 575px) {
+  .h3Size {
+    font-size: 135%;
+  }
+
+  .innerMainBlockBlock {
+    padding: 25px 25px;
+  }
 }

@@ -7,10 +7,11 @@
   width: 100%;
 }
 
-.categoryBlock {
-  min-width: 250px;
+.menuBlock {
+  display: flex;
+  width: 250px;
   background-color: #fff;
-  border-right: 1 px
+  align-self: stretch;
 }
 
 li .hoverEdit {
@@ -31,5 +32,27 @@ li:hover .hoverEdit {
 }
 
 .sizeLi {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
   min-height: 65px;
+}
+
+.desktopView {
+  display: block;
+}
+
+.mobileView {
+  display: none;
+}
+
+@media screen and (max-width: 700px) {
+  .desktopView {
+    display: none;
+  }
+
+  .mobileView {
+    display: initial;
+  }
 }

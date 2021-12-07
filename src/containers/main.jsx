@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router';
 import Header from '../components/Header';
 import Menu from '../components/Menu';
 
 const Main = ({ el }) => {
+  const [openedMenu, setOpenedMenu] = useState(false);
   const token = localStorage.getItem('token');
   const user = JSON.parse(localStorage.getItem('userInfo'));
 
@@ -11,12 +12,16 @@ const Main = ({ el }) => {
     return <Redirect to="/login" />
   }
 
+  const toggleSidebar = () => {
+    setOpenedMenu(!openedMenu);
+  };
+
   if (user.role === el.role.admin) {
     return (
       <>
-        {el.header && <Header />}
+        {el.header && <Header toggleMenu={toggleSidebar} />}
         <div className='mainBlock'>
-          {el.menu && <Menu />}
+          {el.menu && <Menu openedMenu={openedMenu} toggleMenu={toggleSidebar} />}
           {el.component}
         </div>
       </>
@@ -24,9 +29,9 @@ const Main = ({ el }) => {
   } else if (user.role === el.role.user) {
     return (
       <>
-        {el.header && <Header />}
+        {el.header && <Header toggleMenu={toggleSidebar} />}
         <div className='mainBlock'>
-          {el.menu && <Menu />}
+          {el.menu && <Menu openedMenu={openedMenu} toggleMenu={toggleSidebar} />}
           {el.component}
         </div>
       </>

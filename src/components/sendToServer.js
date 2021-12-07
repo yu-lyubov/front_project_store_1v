@@ -8,7 +8,7 @@ export const sendToServer = (url, method, getToken, state) => {
     let obj = {
       method: method,
       headers: {}
-    }
+    };
 
     if (getToken) {
       obj.headers.Authorization = token;

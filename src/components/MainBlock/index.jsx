@@ -120,67 +120,65 @@ class MainBlock extends React.Component {
     const disabledRoom = textRoom.length < 1 ? 'disabled' : '';
     return (
       <div className='MainBlockFormContainer bg-light'>
-        <div className='d-flex justify-content-center'>
-          <div className='innerMainBlockBlock border rounded-3 p-5 bg-white'>
-            <div className='pb-2 border-bottom'>
-              <h3>Home</h3>
-              <select
-                onChange={this.onSelectHome}
-                className="form-select mb-3 w-50 text-center"
-              >
-                {this.state.homes.map(item => (
-                  <option value={item._id} key={item._id}>
-                    {item.homeName}
-                  </option>
-                ))}
-              </select>
-              <h3>Edit home</h3>
-              <div className='input-group mb-3 w-100'>
-                <input
-                  value={text}
-                  onChange={this.onChangeHomeName}
-                  className={`form-control ${danger}`}
-                  placeholder="HouseNames"
-                />
-                <div className="input-group-append">
-                  <button
-                    onClick={this.onSaveEditHome}
-                    className={`btn btn-outline-secondary bg-success text-white ${disabled}`}
-                  >
-                    Save
-                  </button>
-                </div>
+        <div className='innerMainBlockBlock border rounded-3'>
+          <div className='pb-2 border-bottom'>
+            <h3 className='h3Size'>Home</h3>
+            <select
+              onChange={this.onSelectHome}
+              className="form-select mb-3 w-50 text-center"
+            >
+              {this.state.homes.map(item => (
+                <option value={item._id} key={item._id}>
+                  {item.homeName}
+                </option>
+              ))}
+            </select>
+            <h3 className='h3Size'>Edit home</h3>
+            <div className='input-group mb-3 w-100'>
+              <input
+                value={text}
+                onChange={this.onChangeHomeName}
+                className={`form-control ${danger}`}
+                placeholder="HouseNames"
+              />
+              <div className="input-group-append">
+                <button
+                  onClick={this.onSaveEditHome}
+                  className={`btn btn-outline-secondary bg-success text-white ${disabled}`}
+                >
+                  Save
+                </button>
               </div>
             </div>
-            
-            <div>
-              <h3 className='mt-4'>Room</h3>
-              <select
-                onChange={this.onSelectRoom}
-                className="form-select mb-3 w-50 text-center"
-              >
-                {selectedHome.rooms.map(item => (
-                  <option value={item.id} key={item.id}>
-                    {item.roomName}
-                  </option>
-                ))}
-              </select>
-              <h3>Edit room</h3>
-              <div className='input-group mb-3 w-100'>
-                <input
-                  value={textRoom}
-                  onChange={this.onChangeRoomName}
-                  className={`form-control ${dangerRoom}`}
-                  placeholder="HouseNames"
-                />
-                <div className="input-group-append">
-                  <button
-                    onClick={this.onSaveEditRoom}
-                    className={`btn btn-outline-secondary bg-success text-white ${disabledRoom}`}
-                  >
-                    Save
-                  </button>
-                </div>
+          </div>
+
+          <div>
+            <h3 className='mt-4 h3Size'>Room</h3>
+            <select
+              onChange={this.onSelectRoom}
+              className="form-select mb-3 w-50 text-center"
+            >
+              {selectedHome.rooms.map(item => (
+                <option value={item.id} key={item.id}>
+                  {item.roomName}
+                </option>
+              ))}
+            </select>
+            <h3 className='h3Size'>Edit room</h3>
+            <div className='input-group mb-3 w-100'>
+              <input
+                value={textRoom}
+                onChange={this.onChangeRoomName}
+                className={`form-control ${dangerRoom}`}
+                placeholder="HouseNames"
+              />
+              <div className="input-group-append">
+                <button
+                  onClick={this.onSaveEditRoom}
+                  className={`btn btn-outline-secondary bg-success text-white ${disabledRoom}`}
+                >
+                  Save
+                </button>
               </div>
             </div>
           </div>
