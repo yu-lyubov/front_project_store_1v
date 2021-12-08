@@ -12,7 +12,12 @@
 }
 
 .sizeBox {
-  min-width: 500px;
+  display: flex;
+  flex-direction: column;
+  max-width: 580px;
+  padding: 25px 50px 50px;
+  margin-top: 50px;
+  background-color: #ffffff;
 }
 
 table {
@@ -35,7 +40,6 @@ td {
 caption {
   caption-side: top;
   text-align: center;
-  
 }
 
 .sizeAddUser {
@@ -50,28 +54,39 @@ caption {
 }
 
 .newUserSize {
-  min-width: 600px;
-  /* min-height: 300px; */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 575px;
+  background-color: #ffffff;
+}
+
+.editUserMrg {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .sizeDivSelect {
-  width: 402px;
-}
-
-.sizeLabel {
-  min-width: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 475px;
 }
 
 .sizeSelect1 {
-  width: 197px;
-}
-
-.sizeSelect2 {
-  width: 207px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 205px;
 }
 
 .sizeOption {
-  width: 128px;
+  max-width: 120px;
 }
 
 .cursor {
@@ -80,4 +95,102 @@ caption {
 
 .quantityPageSelect {
   width: 65px;
+}
+
+.paginationBtn {
+  display: flex;
+  align-items: center;
+  border: 1px solid #dee2e6;
+  color: #000000;
+  padding: 2px;
+}
+
+.brdPgn {
+  padding: 0px 5px;
+  border-right: 1px solid #dee2e6;
+  border-left: 0px;
+}
+
+.PrevBrdRad {
+  border-radius: 10% 0% 0% 10%;
+}
+
+.NextBrdRad {
+  border-radius: 0% 10% 10% 0%;
+  border-left: 0px;
+}
+
+@media screen and (max-width: 575px) {
+  .sizeBox {
+    max-width: 400px;
+    padding: 25px 5px 25px;
+  }
+
+  .sizeAddUser {
+    font-size: 70%;
+  }
+
+  .sizeTable {
+    font-size: 0.55rem;
+  }
+
+  .selectSz {
+    font-size: 60%;
+  }
+
+  .paginationBtn {
+    display: flex;
+    align-items: center;
+    border: 1px solid #dee2e6;
+    color: #000000;
+  }
+
+  .brdPgn {
+    padding: 0px 5px;
+    border-right: 1px solid #dee2e6;
+    border-left: 0px;
+  }
+
+  .NextBrdRad {
+    border-left: 0px;
+  }
+
+  .editUserMrg {
+    margin-bottom: 0px;
+  }
+
+  .sizeDivSelect {
+    margin-top: 10px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .sizeBox {
+    max-width: 320px;
+    padding: 25px 5px 25px;
+  }
+
+  .sizeAddUser {
+    font-size: 50%;
+  }
+
+  th {
+    padding: 5px 15px;
+  }
+
+  td {
+    padding: 5px 15px;
+  }
+
+  .selectSz {
+    font-size: 50%;
+  }
+
+  .editUserMrg {
+    margin-bottom: 0px;
+  }
+
+  .sizeDivSelect {
+    margin-top: 10px;
+  }
 }

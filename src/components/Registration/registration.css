@@ -1,15 +1,16 @@
 .registrationContainer {
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex: 1 1 auto;
   background-color: #f8f9fa;
 }
 
-.marginBlock {
-  margin: auto;
-}
-
 .innerRegistrationBlock {
-  min-width: 600px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 575px;
 }
 
 @media screen and (max-width: 600px) {

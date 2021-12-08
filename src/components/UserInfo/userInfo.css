@@ -6,13 +6,12 @@
 }
 
 .innerUsersBlock {
-  min-width: 600px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 575px;
   background-color: #ffffff;
-  padding: 60px;
-}
-
-h3 {
-  margin-bottom: 45px;
+  padding: 35px 50px;
 }
 
 .totalInfo {
@@ -33,32 +32,28 @@ h3 {
   margin-bottom: 20px;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 575px) {
   .innerUsersBlock {
-    min-width: 380px;
-    background-color: #ffffff;
-    padding: 40px;
-  }
-
-  h3 {
-    margin-bottom: 10px;
+    padding: 25px 35px;
   }
 
   .totalInfo {
     padding-bottom: 30px;
   }
 
+  .h3Size {
+    font-size: 135%;
+  }
+
+  .h4Size {
+    font-size: 125%;
+  }
+
   .totalInfoMargin {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     margin-bottom: 0;
   }
 
-  .totalInfoMargin2 {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  .lastMrg {
     margin-bottom: 10px;
   }
 }

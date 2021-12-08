@@ -17,7 +17,7 @@ class UserInfo extends React.Component {
         password: '',
         password2: '',
       },
-    }
+    };
     this.onChangeUser = this.onChangeUser.bind(this);
     this.onChangeClient = this.onChangeClient.bind(this);
     this.onChangeSelect = this.onChangeSelect.bind(this);
@@ -81,7 +81,7 @@ class UserInfo extends React.Component {
       password: clientPassword.password,
       password2: userPassword.password,
       _id: userInfo._id,
-    }
+    };
     if (this.matchPassword()) {
       sendToServer('changePassword', 'PUT', true, putUserInServer)
       .then(() => {
@@ -109,7 +109,6 @@ class UserInfo extends React.Component {
     return false;
   }
 
-
   render () {
     const { userInfo, clientPassword, userPassword } = this.state;
     const dangerName = isValidateName(userInfo?.name) ? '' : 'border-danger';
@@ -118,113 +117,111 @@ class UserInfo extends React.Component {
     const dangerNewPassword2 = clientPassword.password2 ? this.matchPassword() ? '' : 'border-danger' : '';
     return (
     <div className='userInfoFormContainer bg-light'>
-      <div className='d-flex justify-content-center'>
-        <div className='innerUsersBlock border rounded-3'>
-            <h3 className='text-center'>Настройка профиля пользователя</h3>
-            <h4 className='mb-3 text-center'>Общие данные</h4>
-            <div className='totalInfo border-bottom'>
-              <div className="form-group row totalInfoMargin">
-                <label htmlFor="staticName" className="col-sm-2 col-form-label">Имя:</label>
-                <div className="col-sm-10">
-                  <input
-                    value={userInfo.name || ''}
-                    onChange={(e) => this.onChangeUser(e, 'name')}
-                    className={`form-control ${dangerName}`}
-                    id="staticName"
-                  />
-                </div>
-              </div>
-            <div className="form-group row totalInfoMargin">
-              <label htmlFor="staticAge" className="col-sm-2 col-form-label">Возраст:</label>
-              <div className="col-sm-10">
-                <input
-                  value={userInfo.age || ''}
-                  onChange={(e) => this.onChangeUser(e, 'age')}
-                  className={`form-control ${dangerAge}`}
-                  id="staticAge"
-                />
-              </div>
-            </div> 
-            <div className="form-group row totalInfoMargin2">
-              <label className="col-sm-2 col-form-label">Пол:</label>
-              <div className="col-sm-10">
-                <select
-                  onChange={this.onChangeSelect}
-                  value={userInfo.gender || ''}
-                >
-                  <option
-                    value=''
-                    className="form-control"
-                  />
-                  <option
-                    value='woman'
-                    className="form-control"
-                  >
-                    Женский
-                  </option>
-                  <option
-                    value='man'
-                    className="form-control"
-                  >
-                    Мужской
-                  </option>
-                </select>
-              </div>
+      <div className='innerUsersBlock border rounded-3'>
+        <h3 className='text-center mb-3 h3Size'>Настройка профиля пользователя</h3>
+        <h4 className='mb-3 text-center h4Size'>Общие данные</h4>
+        <div className='totalInfo border-bottom'>
+          <div className="form-group row totalInfoMargin">
+            <label htmlFor="staticName" className="col-sm-2 col-form-label textSize">Имя:</label>
+            <div className="col-sm-10">
+              <input
+                value={userInfo.name || ''}
+                onChange={(e) => this.onChangeUser(e, 'name')}
+                className={`form-control ${dangerName}`}
+                id="staticName"
+              />
             </div>
-            <button
-              onClick={this.onSaveData}
-              className={`bg-success form-control text-white btn btn-secondary`}
-            >
-              Сохранить
-            </button>
           </div>
-
-          <div>
-            <h4 className='mt-4 mb-3 text-center'>Изменить пароль</h4>
-            <div className='form-group row totalInfoMargin'>
-            <label htmlFor="staticPassword" className='col-sm-2 col-form-label'>Текущий пароль:</label>
-              <div className="col-sm-10">
-                <input
-                  type='password'
-                  value={userPassword.password}
-                  onChange={(e) => this.onChangeUser(e, 'password')}
-                  className="form-control"
-                  id="staticPassword"
-                />
-              </div>
-            </div>
-            <div className="form-group row totalInfoMargin">
-              <label htmlFor="staticPassword1" className="col-sm-2 col-form-label">Новый пароль:</label>
-              <div className="col-sm-10">
-                <input
-                  type='password'
-                  value={clientPassword.password}
-                  onChange={(e) => this.onChangeClient(e, 'password')}
-                  className={`form-control ${dangerNewPassword}`}
-                  id="staticPassword1"
-                  placeholder='Пароль должен содержать больше 5 знаков'
-                />
-              </div>
-            </div>
-            <div className="form-group row totalInfoMargin2">
-            <label htmlFor="staticPassword2" className="col-sm-2 col-form-label">Повторите пароль:</label>
-              <div className="col-sm-10">
-                <input
-                type='password'
-                  value={clientPassword.password2}
-                  onChange={(e) => this.onChangeClient(e, 'password2')}
-                  className={`form-control ${dangerNewPassword2}`}
-                  id="staticPassword2"
-                />
-              </div>
-            </div>
-            <button
-              onClick={this.onSavePassword}
-              className={`bg-success form-control text-white btn btn-secondary`}
+        <div className="form-group row totalInfoMargin">
+          <label htmlFor="staticAge" className="col-sm-2 col-form-label textSize">Возраст:</label>
+          <div className="col-sm-10">
+            <input
+              value={userInfo.age || ''}
+              onChange={(e) => this.onChangeUser(e, 'age')}
+              className={`form-control ${dangerAge}`}
+              id="staticAge"
+            />
+          </div>
+        </div>
+        <div className="form-group row totalInfoMargin lastMrg">
+          <label className="col-sm-2 col-form-label textSize">Пол:</label>
+          <div className="col-sm-10">
+            <select
+              onChange={this.onChangeSelect}
+              value={userInfo.gender || ''}
             >
-              Сохранить
-            </button>
-          </div>                    
+              <option
+                value=''
+                className="form-control"
+              />
+              <option
+                value='woman'
+                className="form-control"
+              >
+                Женский
+              </option>
+              <option
+                value='man'
+                className="form-control"
+              >
+                Мужской
+              </option>
+            </select>
+          </div>
+        </div>
+        <button
+          onClick={this.onSaveData}
+          className={`bg-success form-control text-white btn btn-secondary`}
+        >
+          Сохранить
+        </button>
+      </div>
+
+        <div>
+          <h4 className='mt-4 mb-3 text-center h4Size'>Изменить пароль</h4>
+          <div className='form-group row totalInfoMargin'>
+          <label htmlFor="staticPassword" className='col-sm-2 col-form-label textSize'>Текущий пароль:</label>
+            <div className="col-sm-10">
+              <input
+                type='password'
+                value={userPassword.password}
+                onChange={(e) => this.onChangeUser(e, 'password')}
+                className="form-control"
+                id="staticPassword"
+              />
+            </div>
+          </div>
+          <div className="form-group row totalInfoMargin">
+            <label htmlFor="staticPassword1" className="col-sm-2 col-form-label textSize">Новый пароль:</label>
+            <div className="col-sm-10">
+              <input
+                type='password'
+                value={clientPassword.password}
+                onChange={(e) => this.onChangeClient(e, 'password')}
+                className={`form-control ${dangerNewPassword}`}
+                id="staticPassword1"
+                placeholder='Пароль должен содержать больше 5 знаков'
+              />
+            </div>
+          </div>
+          <div className="form-group row totalInfoMargin lastMrg">
+          <label htmlFor="staticPassword2" className="col-sm-2 col-form-label textSize">Повторите пароль:</label>
+            <div className="col-sm-10">
+              <input
+              type='password'
+                value={clientPassword.password2}
+                onChange={(e) => this.onChangeClient(e, 'password2')}
+                className={`form-control ${dangerNewPassword2}`}
+                id="staticPassword2"
+              />
+            </div>
+          </div>
+          <button
+            onClick={this.onSavePassword}
+            className={`bg-success form-control text-white btn btn-secondary`}
+          >
+            Сохранить
+          </button>
         </div>
       </div>
     </div>

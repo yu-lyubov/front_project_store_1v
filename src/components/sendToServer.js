@@ -1,4 +1,4 @@
-// const API_PORT = 4000;
+// const API_URL = `http://127.0.0.1:4000/api/`;
 const API_URL = `/api/`;
 
 export const sendToServer = (url, method, getToken, state) => {
@@ -8,7 +8,7 @@ export const sendToServer = (url, method, getToken, state) => {
     let obj = {
       method: method,
       headers: {}
-    }
+    };
 
     if (getToken) {
       obj.headers.Authorization = token;

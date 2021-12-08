@@ -7,6 +7,7 @@
   display: flex;
   justify-content: flex-start;
   align-items:  flex-start;
+  align-content: flex-start;
   flex-wrap: wrap;
   flex: 1 1 auto;
 }
@@ -25,17 +26,29 @@
 }
 
 .withSale {
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-weight: bold;
   color: rgb(226, 5, 5);
+  text-align: center;
 }
 
 .sale {
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   text-decoration: line-through;
   text-decoration-color: rgb(226, 5, 5);
+  text-align: center;
 }
 
 .withoutSale {
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-weight: bold;
+  text-align: center;
 }
 
 .bottonSize {
@@ -55,12 +68,16 @@
 }
 
 .newCategoriesSize {
-  min-width: 500px;
-  /* min-height: 300px; */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 575px;
+  background-color: #ffffff;
 }
 
 .priceOfProductSize {
-  width: 195px;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .blockProduct {
@@ -86,4 +103,25 @@
   overflow-wrap: break-word;
 }
 
+.fileInput {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.fileBtnClose {
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.imagePreview {
+  width: 45px;
+}
+
+@media screen and (max-width: 790px) {
+  .categoryBlock{
+    justify-content: space-evenly;
+  }
+}
 
