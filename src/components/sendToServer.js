@@ -1,7 +1,7 @@
-// const API_URL = `http://127.0.0.1:4000/api/`;
-const API_URL = `/api/`;
+const API_URL = `http://127.0.0.1:4000/api/`;
+// const API_URL = `/api/`;
 
-export const sendToServer = (url, method, getToken, state) => {
+export const sendToServer = (url, method, state) => {
   return new Promise((resolve, reject) => {
     const token = localStorage.getItem('token');
 
@@ -10,7 +10,7 @@ export const sendToServer = (url, method, getToken, state) => {
       headers: {}
     };
 
-    if (getToken) {
+    if (token) {
       obj.headers.Authorization = token;
     }
 

@@ -15,14 +15,14 @@ class Routing extends React.Component {
       <Router>
         <Switch>
           {ROUTES.map((el, idx) => (
-              <Route 
+              <Route
                 path={el.url}
                 key={`${el.url}-${idx}`}
-                render={() =>el.private ? <Main el={el} /> : el.component}
+                render={() => el.private ? <Main el={el} /> : el.component}
               />
             )
           )}
-          <Redirect to='/login' />       
+          <Redirect to='/login' />
         </Switch>
       </Router>
     )

@@ -25,7 +25,7 @@ class Header extends React.Component {
   }
     
   getUserFromServer() {
-    sendToServer('me', 'GET', true)
+    sendToServer('me', 'GET')
     .then((value) => {
       localStorage.setItem('userInfo', JSON.stringify(value));
     })

@@ -40,7 +40,7 @@ class EditUsers extends React.Component {
 
   getUserFromServer() {
     const {numberOfUsers, page} = this.state;
-    sendToServer(`allUsers?perPage=${numberOfUsers}&page=${page}`, 'GET', true)
+    sendToServer(`allUsers?perPage=${numberOfUsers}&page=${page}`, 'GET')
         .then((value) => {
           const arr = this.range(1, value.pages);
           this.setState({allUsers: value.users, arrPages: arr, pages: value.pages});
@@ -97,7 +97,7 @@ class EditUsers extends React.Component {
       newUser.role = 'user';
     }
     if (newUser.login && validateEmail(newUser) && newUser.password.length > 5 && isValidateName(newUser?.name) && isValidNumber(newUser?.age)) {
-      sendToServer('newUser', 'POST', true, newUser)
+      sendToServer('newUser', 'POST', newUser)
           .then((value) => {
             allUsers.push(value);
             this.setState({allUsers, newUser: {}});
@@ -114,7 +114,7 @@ class EditUsers extends React.Component {
     const {allUsers} = this.state;
     let answer = window.confirm('Удалить пользователя?');
     if (answer) {
-      sendToServer('deleteUser', 'DELETE', true, item)
+      sendToServer('deleteUser', 'DELETE', item)
           .then(() => {
             const index = allUsers.indexOf(item);
             if (index > -1) {
@@ -136,7 +136,7 @@ class EditUsers extends React.Component {
           delete newUser.password1;
           delete newUser.password2;
         }
-        sendToServer('changeUser', 'PUT', true, newUser)
+        sendToServer('changeUser', 'PUT', newUser)
             .then((value) => {
               let newArr = [...new Set([...allUsers])];
               newArr = newArr.map((el) => (el._id === value._id ? value : el));
@@ -164,7 +164,7 @@ class EditUsers extends React.Component {
 
   onChangeNumberOfUsers(e) {
     this.setState({numberOfUsers: Number(e.target.value), page: 1});
-    sendToServer(`allUsers?perPage=${Number(e.target.value)}&page=${1}`, 'GET', true)
+    sendToServer(`allUsers?perPage=${Number(e.target.value)}&page=${1}`, 'GET')
         .then((value) => {
           const arr = this.range(1, value.pages)
           this.setState({allUsers: value.users, arrPages: arr, pages: value.pages});
@@ -184,7 +184,7 @@ class EditUsers extends React.Component {
     }
 
     if (page !== num && num > 0 && num <= pages) {
-      sendToServer(`allUsers?perPage=${numberOfUsers}&page=${num}`, 'GET', true)
+      sendToServer(`allUsers?perPage=${numberOfUsers}&page=${num}`, 'GET')
           .then((value) => {
             this.setState({allUsers: value.users, page: num});
           })

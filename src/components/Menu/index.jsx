@@ -38,7 +38,7 @@ class Menu extends React.Component {
   }
 
   getUserFromServer() {
-    sendToServer('allCategory', 'GET', true)
+    sendToServer('allCategory', 'GET')
         .then((value) => {
           this.setState({categories: value})
         })
@@ -55,7 +55,7 @@ class Menu extends React.Component {
     const newItem = {
       name: oneCategory.name,
     };
-    sendToServer('newCategory', 'POST', true, newItem)
+    sendToServer('newCategory', 'POST', newItem)
         .then((value) => {
           this.setState(state => ({
             categories: state.categories.concat(value),
@@ -115,7 +115,7 @@ class Menu extends React.Component {
     const {categories, oneCategory} = this.state;
 
     if (oneCategory.name.length > 0) {
-      sendToServer('changeNameCategory', 'PUT', true, oneCategory)
+      sendToServer('changeNameCategory', 'PUT', oneCategory)
           .then((value) => {
             categories.forEach((el) => {
               if (el._id === value._id) {
@@ -137,7 +137,7 @@ class Menu extends React.Component {
     this.openButton();
     let answer = window.confirm('Удалить категорию?');
     if (answer) {
-      sendToServer('deleteCategory', 'DELETE', true, item)
+      sendToServer('deleteCategory', 'DELETE', item)
           .then(() => {
             const index = categories.indexOf(item);
             if (index > -1) {

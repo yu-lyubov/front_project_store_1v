@@ -1,120 +1,86 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './userInfo.css';
 import { withRouter } from 'react-router-dom';
 import sendToServer from '../sendToServer';
-import { isValidateName, isValidNumber } from '../../helpers/m';
+import { isValidateName, isValidNumber, passwordMatch } from '../../helpers/m';
+import './userInfo.css';
 
 class UserInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userInfo: JSON.parse(localStorage.getItem('userInfo')) || '',
-      userPassword: {
-        password: '',
-      },
-      clientPassword: {
-        password: '',
-        password2: '',
-      },
+      user: JSON.parse(localStorage.getItem('userInfo')) || '',
+      currentPassword: {},
+      newPassword: {},
     };
     this.onChangeUser = this.onChangeUser.bind(this);
-    this.onChangeClient = this.onChangeClient.bind(this);
     this.onChangeSelect = this.onChangeSelect.bind(this);
     this.onSaveData = this.onSaveData.bind(this);
     this.onSavePassword = this.onSavePassword.bind(this);
   }
 
   onChangeUser(e, type) {
-    const { userInfo } = this.state;
-    const { userPassword } = this.state;
-    if (type === 'password') {
-      userPassword[type] = e.target.value.trim();
-      return this.setState({ userPassword: userPassword });
-    }
-    userInfo[type] = e.target.value.trim();
-    this.setState({ userInfo: userInfo });
-  }
+    const { user, currentPassword, newPassword } = this.state;
 
-  onChangeClient(e, type) {
-    const { clientPassword } = this.state;
-    clientPassword[type] = e.target.value.trim();
-    this.setState({ clientPassword: clientPassword });
+    if (type === 'password') {
+      currentPassword[type] = e.target.value.trim();
+      return this.setState({ currentPassword });
+    }
+
+    if (type === 'passwordTwo' || type === 'passwordTwo2') {
+      newPassword[type] = e.target.value.trim();
+      return this.setState({ newPassword });
+    }
+
+    user[type] = e.target.value.trim();
+    this.setState({ user });
   }
 
   onChangeSelect(event) {
-    const { userInfo } = this.state;
-    const c = event.target.value;
-    userInfo.gender = c;
-    this.setState({ userInfo: userInfo });
+    const { user } = this.state;
+    user.gender = event.target.value;
+    this.setState({ user });
   }
 
   onSaveData() {
-    const { userInfo } = this.state;
-    let putUserInServer = {
-    name: userInfo.name,
-    age: userInfo.age,
-    gender: userInfo.gender,
-    _id: userInfo._id,
-    };
-    if (isValidateName(userInfo?.name) && isValidNumber(userInfo?.age)) {
-      sendToServer('changeUsers', 'PUT', true, putUserInServer)
+    const { user } = this.state;
+    if (!(isValidateName(user?.name))) return alert('Неправильно введено имя');
+    if (!(isValidNumber(user?.age))) return alert('Неправильно введен возраст');
+    if (isValidateName(user?.name) && isValidNumber(user?.age)) {
+      sendToServer('changeUsers', 'PUT', user)
       .then(() => {
-        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+        localStorage.setItem('userInfo', JSON.stringify(user));
         alert('Данные сохранены!');
-      })
-    } else if (!(isValidateName(userInfo?.name)) && isValidNumber(userInfo?.age)) {
-      return alert('Неправильно введено имя');
-    } else if (isValidateName(userInfo?.name) && !(isValidNumber(userInfo?.age))) {
-      return alert('Неправильно введен возраст');
-    } else {
-      alert('Неправильно введены данные');
+      });
+      return;
     }
+    return alert('Неправильно введены данные');
   }
 
   onSavePassword() {
-    const { userInfo } = this.state;
-    const { userPassword } = this.state;
-    const { clientPassword } = this.state;
-
+    const { user, currentPassword, newPassword } = this.state;
     let putUserInServer = {
-      password: clientPassword.password,
-      password2: userPassword.password,
-      _id: userInfo._id,
+      password: newPassword.passwordTwo,
+      password2: currentPassword.password,
+      _id: user._id,
     };
-    if (this.matchPassword()) {
-      sendToServer('changePassword', 'PUT', true, putUserInServer)
+    if (passwordMatch(newPassword.passwordTwo, newPassword.passwordTwo2)) {
+      sendToServer('changePassword', 'PUT', putUserInServer)
       .then(() => {
-        userPassword.password = '';
-        clientPassword.password = '';
-        clientPassword.password2 = '';
-        this.setState({ userPassword: userPassword, clientPassword: clientPassword });
+        this.setState({ currentPassword: {}, newPassword: {} });
         alert('Пароль успешно сохранен!');
       })
-      .catch((e) => {
-        alert(e);
-      })
-    } else {
-      alert('Неверно написан новый пароль!');
+      .catch((err) => {
+        alert(err);
+      });
+      return;
     }
-  }
-
-  matchPassword() {
-    const { clientPassword } = this.state;
-    const ps1 = clientPassword.password;
-    const ps2 = clientPassword.password2;
-    if (ps1 && ps2 && ps1.length > 5 && ps1 === ps2) {
-      return true;
-    }
-    return false;
+    return alert('Неверно написан новый пароль!');
   }
 
   render () {
-    const { userInfo, clientPassword, userPassword } = this.state;
-    const dangerName = isValidateName(userInfo?.name) ? '' : 'border-danger';
-    const dangerAge = isValidNumber(userInfo?.age) ? '' : 'border-danger';
-    const dangerNewPassword = clientPassword.password ? clientPassword.password.length > 5 ? '' : 'border-danger' : '';
-    const dangerNewPassword2 = clientPassword.password2 ? this.matchPassword() ? '' : 'border-danger' : '';
+    const { name, age, gender } = this.state.user;
+    const { password } = this.state.currentPassword;
+    const { passwordTwo, passwordTwo2 } = this.state.newPassword;
     return (
     <div className='userInfoFormContainer bg-light'>
       <div className='innerUsersBlock border rounded-3'>
@@ -125,9 +91,9 @@ class UserInfo extends React.Component {
             <label htmlFor="staticName" className="col-sm-2 col-form-label textSize">Имя:</label>
             <div className="col-sm-10">
               <input
-                value={userInfo.name || ''}
+                value={name || ''}
                 onChange={(e) => this.onChangeUser(e, 'name')}
-                className={`form-control ${dangerName}`}
+                className={`form-control ${isValidateName(name) ? '' : 'border-danger'}`}
                 id="staticName"
               />
             </div>
@@ -136,9 +102,9 @@ class UserInfo extends React.Component {
           <label htmlFor="staticAge" className="col-sm-2 col-form-label textSize">Возраст:</label>
           <div className="col-sm-10">
             <input
-              value={userInfo.age || ''}
+              value={age || ''}
               onChange={(e) => this.onChangeUser(e, 'age')}
-              className={`form-control ${dangerAge}`}
+              className={`form-control ${isValidNumber(age) ? '' : 'border-danger'}`}
               id="staticAge"
             />
           </div>
@@ -148,7 +114,7 @@ class UserInfo extends React.Component {
           <div className="col-sm-10">
             <select
               onChange={this.onChangeSelect}
-              value={userInfo.gender || ''}
+              value={gender || ''}
             >
               <option
                 value=''
@@ -184,7 +150,7 @@ class UserInfo extends React.Component {
             <div className="col-sm-10">
               <input
                 type='password'
-                value={userPassword.password}
+                value={password || ''}
                 onChange={(e) => this.onChangeUser(e, 'password')}
                 className="form-control"
                 id="staticPassword"
@@ -196,9 +162,9 @@ class UserInfo extends React.Component {
             <div className="col-sm-10">
               <input
                 type='password'
-                value={clientPassword.password}
-                onChange={(e) => this.onChangeClient(e, 'password')}
-                className={`form-control ${dangerNewPassword}`}
+                value={passwordTwo || ''}
+                onChange={(e) => this.onChangeUser(e, 'passwordTwo')}
+                className={`form-control ${!passwordTwo || passwordTwo.length > 5 ? '' : 'border-danger'}`}
                 id="staticPassword1"
                 placeholder='Пароль должен содержать больше 5 знаков'
               />
@@ -209,9 +175,9 @@ class UserInfo extends React.Component {
             <div className="col-sm-10">
               <input
               type='password'
-                value={clientPassword.password2}
-                onChange={(e) => this.onChangeClient(e, 'password2')}
-                className={`form-control ${dangerNewPassword2}`}
+                value={passwordTwo2 || ''}
+                onChange={(e) => this.onChangeUser(e, 'passwordTwo2')}
+                className={`form-control ${!passwordTwo2 || passwordMatch(passwordTwo, passwordTwo2) ? '' : 'border-danger'}`}
                 id="staticPassword2"
               />
             </div>

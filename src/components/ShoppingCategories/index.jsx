@@ -45,7 +45,7 @@ class ShoppingCategories extends React.Component {
   }
 
   getUserFromServer(id) {
-    sendToServer(`allProduct/${id}`, 'GET', true)
+    sendToServer(`allProduct/${id}`, 'GET')
         .then((value) => {
           this.setState({allProduct: value});
         })
@@ -100,7 +100,7 @@ class ShoppingCategories extends React.Component {
           formData.append(key, product[key]);
         }
 
-        sendToServer('newProduct', 'POST', true, formData)
+        sendToServer('newProduct', 'POST', formData)
             .then((value) => {
               allProduct.push(value);
               this.openCategories();
@@ -120,7 +120,7 @@ class ShoppingCategories extends React.Component {
     const {allProduct} = this.state;
     let answer = window.confirm('Удалить товар?');
     if (answer) {
-      sendToServer('deleteProduct', 'DELETE', true, item)
+      sendToServer('deleteProduct', 'DELETE', item)
           .then(() => {
             const index = allProduct.indexOf(item);
             if (index > -1) {
@@ -148,7 +148,7 @@ class ShoppingCategories extends React.Component {
           formData.append(key, product[key]);
         }
 
-        sendToServer('changeProduct', 'PUT', true, formData)
+        sendToServer('changeProduct', 'PUT', formData)
             .then((value) => {
               let newArr = [...new Set([...allProduct])];
               newArr = newArr.map((el) => (el._id === value._id ? value : el));
