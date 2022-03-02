@@ -1,0 +1,10 @@
+.idea
+node_modules
+build
+public
+nginx
+package.json
+.git
+.gitignore
+package-lock.json
+README.md

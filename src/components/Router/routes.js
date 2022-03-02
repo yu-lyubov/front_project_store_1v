@@ -7,65 +7,61 @@ import ShoppingCategories from '../ShoppingCategories';
 import StartPageShop from '../StartPageShop';
 import EditUsers from '../EditUsers';
 
+const everybody = {
+    user: 'user',
+    admin: 'admin',
+};
+
+const onlyAdmin = {
+    admin: 'admin',
+};
+
 export const ROUTES = [
-  {
-    url: '/registration',
-    component: <Registration />,
-  },
-  {
-    url: '/login',
-    component: <LoginForm />,
-  },    
-  {
-    url: '/editUsers',
-    component: <UserInfo />,
-    header: true,
-    private: true,
-    role: {
-      user: 'user',
-      admin: 'admin',
+    {
+        url: '/registration',
+        component: <Registration />,
     },
-  },
-  {
-    url: '/homes',
-    component: <MainBlock />,
-    header: true,
-    private: true,
-    role: {
-      admin: 'admin',
+    {
+        url: '/login',
+        component: <LoginForm />,
     },
-  },
-  {
-    url: '/category/:id',
-    component: <ShoppingCategories />,
-    header: true,
-    menu: true,
-    private: true,
-    role: {
-      user: 'user',
-      admin: 'admin',
+    {
+        url: '/editUsers',
+        component: <UserInfo />,
+        header: true,
+        private: true,
+        role: everybody,
     },
-  },
-  {
-    url: '/category',
-    component: <StartPageShop />,
-    header: true,
-    menu: true,
-    private: true,
-    role: {
-      user: 'user',
-      admin: 'admin',
+    {
+        url: '/homes',
+        component: <MainBlock />,
+        header: true,
+        private: true,
+        role: onlyAdmin,
     },
-  },
-  {
-    url: '/users',
-    component: <EditUsers />,
-    header: true,
-    private: true,
-    role: {
-      admin: 'admin',
+    {
+        url: '/category/:id',
+        component: <ShoppingCategories />,
+        header: true,
+        menu: true,
+        private: true,
+        role: everybody,
     },
-  },
-]
+    {
+        url: '/category',
+        component: <StartPageShop />,
+        header: true,
+        menu: true,
+        private: true,
+        role: everybody,
+    },
+    {
+        url: '/users',
+        component: <EditUsers />,
+        header: true,
+        private: true,
+        role: onlyAdmin,
+    },
+];
 
 export default ROUTES;

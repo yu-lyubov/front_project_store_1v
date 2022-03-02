@@ -1,70 +1,73 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, withRouter } from 'react-router-dom';
-import {ReactComponent as BurgerIcon} from '../../assets/icons/list.svg';
+import { ReactComponent as BurgerIcon } from '../../assets/icons/list.svg';
 import sendToServer from '../sendToServer.js';
 import { isAdmin } from '../../helpers/m';
 import './header.css';
 
 class Header extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userInfo: JSON.parse(localStorage.getItem('userInfo')) || '',
+    constructor(props) {
+        super(props);
+        this.state = {
+            user: JSON.parse(localStorage.getItem('userInfo')) || '',
+        };
+        this.onLogOut = this.onLogOut.bind(this);
     }
-    this.onLogOut = this.onLogOut.bind(this);
-  }
 
-  componentDidMount() {
-    const token = localStorage.getItem('token');
-    const user = localStorage.getItem('userInfo');
-    if (token && !user) {
-      this.getUserFromServer();
+    componentDidMount() {
+        const token = localStorage.getItem('token');
+        const user = localStorage.getItem('userInfo');
+        if (token && !user) {
+            this.getUserFromServer();
+        }
     }
-      
-  }
-    
-  getUserFromServer() {
-    sendToServer('me', 'GET')
-    .then((value) => {
-      localStorage.setItem('userInfo', JSON.stringify(value));
-    })
-  }
 
-  onLogOut() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userInfo');
-    return this.props.history.push("/login");
-  }
+    getUserFromServer() {
+        sendToServer('me', 'GET').then((value) => {
+            localStorage.setItem('userInfo', JSON.stringify(value));
+        });
+    }
 
-  render () {      
-    const { toggleMenu } = this.props;
-    const { userInfo } = this.state;
-    return (
-      <div className='d-flex justify-content-center border'>
-        <div className='innerHeadersBlock'>
-          <div className="py-2 dataBlock">
-              <div className='d-flex flex-row justify-content-between align-items-center flWidth'>
-                <BurgerIcon className="burgerIcon" onClick={toggleMenu} />
-                <Link to='/category' className='link-dark linkBtn'>Shop</Link>
-                <Link to='/editUsers' className='link-dark linkBtn'>User profile</Link>
-                {isAdmin(userInfo) && (
-                  <Link to='/users' className='link-dark linkBtn'>Users</Link>
-                )}
-              </div>
-            <div className='d-flex flex-row justify-content-between align-items-center flWidth2'>
-              <p className='mb-0 linkBtn'>{userInfo ? userInfo.name : ''}</p>
-              <button
-                onClick={this.onLogOut}
-                className={`form-control-sm border btn-light btnSize`}
-              >
-                Log off
-              </button>
+    onLogOut() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userInfo');
+        return this.props.history.push('/login');
+    }
+
+    render() {
+        const { toggleMenu } = this.props;
+        const { user } = this.state;
+        return (
+            <div className="d-flex justify-content-center border">
+                <div className="innerHeadersBlock">
+                    <div className="py-2 dataBlock">
+                        <div className="d-flex flex-row justify-content-between align-items-center flWidth">
+                            <BurgerIcon className="burgerIcon" onClick={toggleMenu} />
+                            <Link to="/category" className="link-dark linkBtn">
+                                Shop
+                            </Link>
+                            <Link to="/editUsers" className="link-dark linkBtn">
+                                User profile
+                            </Link>
+                            {isAdmin(user) && (
+                                <Link to="/users" className="link-dark linkBtn">
+                                    Users
+                                </Link>
+                            )}
+                        </div>
+                        <div className="d-flex flex-row justify-content-between align-items-center flWidth2">
+                            <p className="mb-0 linkBtn">{user ? user.name : ''}</p>
+                            <button
+                                onClick={this.onLogOut}
+                                className={`form-control-sm border btn-light btnSize`}
+                            >
+                                Log off
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
+        );
+    }
 }
 export default withRouter(Header);
